@@ -1,0 +1,21 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Image Processing API
+
+Resources:
+  ImageProcessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      CodeUri: .
+      Timeout: 15
+      Policies:
+        - S3FullAccess
+      Events:
+        S3UploadEvent:
+          Type: S3
+          Properties:
+            Bucket: source-bucket-name
+            Events: s3:ObjectCreated:*
